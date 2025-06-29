@@ -2,6 +2,8 @@
 
 This repository contains a simple implementation of the REINFORCE algorithm to solve the `CartPole-v1` environment from [Gymnasium](https://gymnasium.farama.org/).
 
+![REINFORCE Training on CartPole-v1](reward_plot.png)
+
 ## Requirements
 
 The dependencies are listed in `requirements.txt`. You can install them using pip:
