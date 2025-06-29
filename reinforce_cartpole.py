@@ -4,6 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from collections import deque
 import random, numpy as np
+from torch.utils.tensorboard import SummaryWriter
 
 SEED = 42
 random.seed(SEED)
@@ -86,6 +87,7 @@ def compute_returns(rewards, gamma=GAMMA):
 def train():
     env = gym.make(ENV_NAME)
     scores = deque(maxlen=WINDOW_SIZE)
+    writer = SummaryWriter(comment=f"__{ENV_NAME}__{LR}")
 
     for episode in range(1, MAX_EPISODES + 1):
         log_probs, rewards = run_episode(env)
@@ -98,14 +100,19 @@ def train():
         loss.backward()
         optimizer.step()
 
-        scores.append(sum(rewards))
+        total_reward = sum(rewards)
+        scores.append(total_reward)
+        writer.add_scalar("Reward/episode", total_reward, episode)
+
         if episode % 20 == 0:
             avg = np.mean(scores)
+            writer.add_scalar("Reward/avg", avg, episode)
             print(f"Episode {episode:4d} | avg reward {avg:6.2f}")
 
         if len(scores) == WINDOW_SIZE and np.mean(scores) >= SOLVED_AT:
             print(f"Solved in {episode} episodes")
             break
+    writer.close()
     env.close()
 
 
