@@ -35,7 +35,7 @@ This will start a web server that you can navigate to in your browser to see the
 You can also generate a static plot of the training rewards using Matplotlib. After running the training script, execute the following command:
 
 ```bash
-python plot_results.py
+python parse_tensorboard.py
 ```
 
 This will read the data from the latest TensorBoard log and create a `reward_plot.png` file in the root directory.
